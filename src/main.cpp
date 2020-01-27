@@ -136,59 +136,60 @@ void autonomous()
 	// intake(0);
 	// stack_lift((void*)-1);
 	//expanding the stack mechanism expansion
-	go(500,127);
-	pros::delay(500);
-	go(-500,127);
-	pros::delay(500);
-	for(int i = 0; i<2; i++)
-	{
-	stack_lift(1, 127);
-	pros::delay(450);
-	stack_lift(-1, 127);
-	pros::delay(400);
-	}
 
-	arm_mtr1.move_relative(600, 127);
-	arm_mtr2.move_relative(600, 127);
-	pros::delay(150);
-	go(3000, 120);
-	pros::delay(450);
-	stack_lift(-1, 127);
-	intake(1);
-	pros::delay(2000);
-	go(-2200, -127);
-	pros::delay(2100);
-	turn_fixed(AUTONOMOUS_RIGHT ? 90 : -90, 127);
-	arm_mtr1.move_relative(200, 127);
-	arm_mtr2.move_relative(200, 127);
-	pros::delay(1000);
-	go(2000, 127);
-	pros::delay(1500);
-	stack_lift(1);
-	intake(0);
-	pros::delay(1700);
-	intake(-2);
-	pros::delay(200);
-	go(-900,-40);
-	pros::delay(2000);
-	intake(0);
-
-	// autonomous_recorder = fopen("/usd/autonomous_recorder2.txt", "r");
-	// do
+	// go(500,127);
+	// pros::delay(500);
+	// go(-500,127);
+	// pros::delay(500);
+	// for(int i = 0; i<2; i++)
 	// {
-	// 	fscanf(autonomous_recorder, "%d %d %d %d %d/", &left_mtr_auto, &right_mtr_auto, &stack_mtr_auto, &intake_mtr_auto, &arm_mtr_auto);
-	// 	std::cout << left_mtr_auto << " " << right_mtr_auto << " " << stack_mtr_auto << " " << intake_mtr_auto << " " << arm_mtr_auto << std::endl;
-	// 	left_mtr.move_voltage(left_mtr_auto);
-	// 	right_mtr.move_voltage(right_mtr_auto);
-	// 	stack_mtr.move_voltage(stack_mtr_auto);
-	// 	stack_mtr2.move_voltage(stack_mtr_auto);
-	// 	intake_mtr1.move_voltage(intake_mtr_auto);
-	// 	intake_mtr2.move_voltage(intake_mtr_auto);
-	// 	arm_mtr1.move_voltage(arm_mtr_auto);
-	// 	arm_mtr2.move_voltage(arm_mtr_auto);
-	// 	pros::delay(20);
-	// }while(feof(autonomous_recorder) || ferror(autonomous_recorder));
-	// std::cout << ferror(autonomous_recorder) << feof(autonomous_recorder);
+	// stack_lift(1, 127);
+	// pros::delay(450);
+	// stack_lift(-1, 127);
+	// pros::delay(400);
+	// }
+	//
+	// arm_mtr1.move_relative(600, 127);
+	// arm_mtr2.move_relative(600, 127);
+	// pros::delay(150);
+	// go(3000, 120);
+	// pros::delay(450);
+	// stack_lift(-1, 127);
+	// intake(1);
+	// pros::delay(2000);
+	// go(-2200, -127);
+	// pros::delay(2100);
+	// turn_fixed(AUTONOMOUS_RIGHT ? 90 : -90, 127);
+	// arm_mtr1.move_relative(200, 127);
+	// arm_mtr2.move_relative(200, 127);
+	// pros::delay(1000);
+	// go(2000, 127);
+	// pros::delay(1500);
+	// stack_lift(1);
+	// intake(0);
+	// pros::delay(1700);
+	// intake(-2);
+	// pros::delay(200);
+	// go(-900,-40);
+	// pros::delay(2000);
+	// intake(0);
+
+	autonomous_recorder = fopen("/usd/autonomous_recorder2.txt", "r");
+	do
+	{
+		fscanf(autonomous_recorder, "%d %d %d %d %d/", &left_mtr_auto, &right_mtr_auto, &stack_mtr_auto, &intake_mtr_auto, &arm_mtr_auto);
+		std::cout << left_mtr_auto << " " << right_mtr_auto << " " << stack_mtr_auto << " " << intake_mtr_auto << " " << arm_mtr_auto << std::endl;
+		left_mtr.move_voltage(left_mtr_auto);
+		right_mtr.move_voltage(right_mtr_auto);
+		stack_mtr.move_voltage(stack_mtr_auto);
+		stack_mtr2.move_voltage(stack_mtr_auto);
+		intake_mtr1.move_voltage(intake_mtr_auto);
+		intake_mtr2.move_voltage(intake_mtr_auto);
+		arm_mtr1.move_voltage(arm_mtr_auto);
+		arm_mtr2.move_voltage(arm_mtr_auto);
+		pros::delay(20);
+	}while(!(feof(autonomous_recorder) || ferror(autonomous_recorder)));
+	std::cout << ferror(autonomous_recorder) << feof(autonomous_recorder);
 }
 
 
@@ -275,8 +276,9 @@ void opcontrol()
 		if((!(stack_mtr.get_position() < -35 && stack_power < 0) || !(stack_mtr.get_position() > CORRECTED_STACK_MOTOR_ROTATION_FORWARD+50 && stack_power > 0))
 		&& (master.get_digital(DIGITAL_RIGHT) || master.get_digital(DIGITAL_LEFT) ))
 		{
-			stack_mtr.move_relative(master.get_digital(DIGITAL_RIGHT)?50:-50, 50);
-			stack_mtr2.move_relative(master.get_digital(DIGITAL_RIGHT)?50:-50, 50);
+			stack_mtr.move_relative(master.get_digital(DIGITAL_RIGHT)?70:-70, 70);
+			stack_mtr2.move_relative(master.get_digital(DIGITAL_RIGHT)?70:-70, 70);
+			pros::delay(400);
 		}
 		//
 		// if(abs(stack_mtr.get_target_velocity()) != STACK_MTR_VELOCITY )
